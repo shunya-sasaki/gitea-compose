@@ -33,6 +33,25 @@ id -u git
 id -u git
 ```
 
+### Add a gitea shim on the host
+
+_/usr/local/bin/gitea_
+
+```sh
+ssh-original-command="$SSH_ORIGINAL_COMMAND" \
+    /usr/bin/docker exec -i \
+    --env SSH_ORIGINAL_COMMAND \
+    -u git \
+    gitea \
+    /usr/local/bin/gitea "$@"
+```
+
+Run the following command to make the shim executable:
+
+```sh
+chmod 755 /usr/local/bin/gitea
+```
+
 ### Create .env file
 
 Create a `.env` file in the root of the project with the following content:

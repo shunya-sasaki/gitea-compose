@@ -17,10 +17,11 @@ services:
     user: "${UID:-1000}:${GID:-1000}"
     restart: always
     volumes:
-      - ./gitea-data:/var/lib/gitea:rw
       - ./gitea-config:/etc/gitea:rw
-      - /etc/timezone:/etc/timezone:ro
+      - ./gitea-data:/var/lib/gitea:rw
       - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /home/git/.ssh:/data/git/.ssh
     ports:
       - "3000:3000"
       - "2222:2222"
