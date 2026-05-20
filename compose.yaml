@@ -6,7 +6,7 @@ services:
       default:
         aliases:
           - gitea
-        entry-net:
+      entry-net:
     restart: always
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -17,6 +17,7 @@ services:
     image: gitea/gitea:1.26.1-rootless
     container_name: gitea
     restart: always
+    environment:
       - GITEA__server__DOMAIN=${DOMAIN:-localhost}
       - GITEA__server__ROOT_URL=${ROOT_URL:-http://localhost:3000}
       - GITEA__server__SSH_DOMAIN=${SSH_DOMAIN:-localhost}
@@ -25,10 +26,14 @@ services:
       - GITEA__server__SSH_CREATE_AUTHORIZED_KEYS_FILE=false
       - GITEA__server__DISABLE_SSH=false
     volumes:
-      - ./gitea-config:/etc/gitea:rw
-      - ./gitea-data:/var/lib/gitea:rw
+      - gitea-config:/etc/gitea:rw
+      - gitea-data:/var/lib/gitea:rw
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+
+volumes:
+  gitea-config:
+  gitea-data:
 
 networks:
   default:
